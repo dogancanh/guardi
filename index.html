@@ -4,134 +4,247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guardi — Spam Arama ve SMS Engelleyici</title>
-<meta name="description" content="Guardi, iPhone'unu spam aramalar ve dolandırıcılık SMS'lerinden korur. Binlerce spam numarayı otomatik engeller, mesajları yapay zeka ile filtreler. Tüm işlem cihazında, gizliliğin korunarak.">
+<meta name="description" content="Guardi, iPhone'unu spam aramalar ve dolandırıcılık SMS'lerinden korur. Binlerce spam numarayı otomatik engeller, mesajları yapay zeka ile cihazında filtreler. Gizliliğin korunarak.">
 <meta property="og:title" content="Guardi — Spam Arama ve SMS Engelleyici">
 <meta property="og:description" content="iPhone'unu spam ve dolandırıcılıktan koruyan akıllı güvenlik uygulaması.">
 <meta property="og:image" content="assets/guardi-icon-1024.png">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#0A0908">
 <link rel="icon" type="image/png" href="assets/guardi-icon-1024.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --purple:#855AF8; --blue:#4F90FF;
-    --bg:#080A16; --bg2:#0E1230; --card:#141A33;
-    --text:#EAECFB; --muted:#9AA0C0; --line:rgba(255,255,255,.08);
-    --grad:linear-gradient(135deg,var(--purple),var(--blue));
+    --bg:#0A0908; --bg2:#100E0C; --card:#151210; --card2:#1C1815;
+    --gold:#E7B44C; --gold-hi:#F6D386; --gold-deep:#B4832E;
+    --text:#F3EEE3; --muted:#A89E8B; --faint:#6E6656;
+    --line:rgba(231,180,76,.14); --line2:rgba(255,255,255,.06);
+    --display:"Fraunces",Georgia,serif;
+    --body:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --maxw:1180px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  ::selection{background:var(--gold);color:#0A0908}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+  }
+  /* Film grain overlay */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Warm ambient gold glows */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60vw 40vw at 78% -6%, rgba(231,180,76,.14), transparent 60%),
+      radial-gradient(50vw 40vw at -8% 12%, rgba(231,180,76,.06), transparent 55%);
   }
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
-  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  img{display:block;max-width:100%}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;position:relative;z-index:2}
 
-  /* Nav */
-  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
-      background:rgba(8,10,22,.72);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px}
-  .brand img{width:34px;height:34px}
-  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:11px 18px;
-       font-weight:600;font-size:15px;transition:transform .15s,box-shadow .15s;border:none;cursor:pointer}
-  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 24px rgba(120,90,248,.35)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(120,90,248,.5)}
-  .btn-ghost{border:1px solid var(--line);color:var(--text)}
+  /* ---- Typography helpers ---- */
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+  .eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .serif{font-family:var(--display)}
+  .gold{color:var(--gold)}
+  .ital{font-family:var(--display);font-style:italic;font-weight:500;color:var(--gold)}
 
-  /* Hero */
-  .hero{position:relative;padding:90px 0 70px;text-align:center;overflow:hidden}
-  .hero::before{content:"";position:absolute;inset:0;z-index:-1;
-    background:radial-gradient(60% 50% at 50% 0%,rgba(120,90,248,.22),transparent 70%),
-               radial-gradient(40% 40% at 80% 30%,rgba(79,144,255,.16),transparent 70%)}
-  .hero img.icon{width:108px;height:108px;border-radius:24px;
-    box-shadow:0 20px 60px rgba(0,0,0,.5);margin-bottom:28px}
-  .hero h1{font-size:clamp(34px,6vw,58px);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:18px}
-  .hero p.sub{font-size:clamp(16px,2.4vw,21px);color:var(--muted);max-width:620px;margin:0 auto 32px}
-  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .pill{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);
-        border:1px solid var(--line);border-radius:999px;padding:7px 14px;margin-bottom:26px}
-  .dot{width:7px;height:7px;border-radius:50%;background:#34d399}
+  /* ---- Buttons ---- */
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:100px;padding:14px 26px;
+    font-family:var(--body);font-weight:700;font-size:15px;cursor:pointer;border:1px solid transparent;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s,color .25s;white-space:nowrap}
+  .btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#241a06;
+    box-shadow:0 10px 30px -8px rgba(231,180,76,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(231,180,76,.65), inset 0 1px 0 rgba(255,255,255,.6)}
+  .btn-ghost{background:rgba(255,255,255,.03);color:var(--text);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+  .btn .apple{width:17px;height:17px;fill:currentColor;margin-top:-2px}
 
-  /* Trust strip */
-  .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
-  .trust .wrap{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:center;padding:22px 24px}
-  .trust span{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+  /* ---- Nav ---- */
+  nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px) saturate(1.2);
+    background:rgba(10,9,8,.72);border-bottom:1px solid var(--line2)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:.01em}
+  .brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 4px 16px rgba(231,180,76,.28)}
+  nav .btn{padding:11px 22px;font-size:14px}
 
-  /* Sections */
-  section{padding:84px 0}
-  .eyebrow{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-           color:var(--blue);text-align:center;margin-bottom:12px}
-  h2.title{font-size:clamp(26px,4vw,40px);font-weight:800;text-align:center;letter-spacing:-.02em;margin-bottom:14px}
-  .lead{text-align:center;color:var(--muted);max-width:600px;margin:0 auto 52px;font-size:17px}
+  /* ---- Hero ---- */
+  .hero{position:relative;padding:88px 0 40px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(44px,6.4vw,82px);line-height:.98;
+    letter-spacing:-.02em;margin:22px 0 0}
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero .sub{color:var(--muted);font-size:19px;max-width:30ch;margin-top:26px;line-height:1.55}
+  .hero .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .hero .microtrust{display:flex;align-items:center;gap:10px;margin-top:24px;color:var(--faint);font-size:13.5px;font-weight:600}
+  .hero .microtrust b{color:var(--muted);font-weight:700}
+  .dotsep{width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.6}
 
-  /* Features grid */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .feat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;
-        transition:transform .2s,border-color .2s}
-  .feat:hover{transform:translateY(-4px);border-color:rgba(120,90,248,.4)}
-  .feat .ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;
-             font-size:24px;margin-bottom:16px;background:rgba(120,90,248,.14)}
-  .feat h3{font-size:18px;margin-bottom:8px}
-  .feat p{color:var(--muted);font-size:15px}
+  /* Hero device */
+  .device-stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:560px}
+  .device-stage .halo{position:absolute;width:100%;height:112%;
+    background:radial-gradient(closest-side, rgba(231,180,76,.28), transparent 70%);filter:blur(10px)}
+  .device{position:relative;width:288px;border-radius:44px;padding:12px;
+    background:linear-gradient(160deg,#26211a,#0d0b09);
+    box-shadow:0 50px 90px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(231,180,76,.18), inset 0 1px 0 rgba(255,255,255,.06);
+    transform:perspective(1600px) rotateY(-16deg) rotateX(5deg) rotateZ(1deg);
+    transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .device:hover{transform:perspective(1600px) rotateY(-7deg) rotateX(2deg)}
+  .device .glass{border-radius:33px;overflow:hidden;aspect-ratio:9/19.5;background:#0b0e1f;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+  .device .glass img{width:100%;height:100%;object-fit:cover}
+  .device .notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:96px;height:26px;
+    background:#050403;border-radius:0 0 16px 16px;z-index:3}
+  .float-badge{position:absolute;background:rgba(21,18,16,.86);backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:16px;padding:13px 16px;display:flex;align-items:center;gap:11px;
+    box-shadow:0 20px 40px -16px rgba(0,0,0,.7)}
+  .float-badge .ic{width:34px;height:34px;border-radius:10px;background:rgba(231,180,76,.14);
+    display:grid;place-items:center;font-size:17px}
+  .float-badge .t{font-size:12px;color:var(--muted);font-weight:600}
+  .float-badge .v{font-family:var(--display);font-weight:600;font-size:16px}
+  .fb-1{top:12%;left:-6%}
+  .fb-2{bottom:14%;right:-8%}
 
-  /* Steps */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:s}
-  .step{text-align:center;position:relative}
-  .step .num{counter-increment:s;width:54px;height:54px;border-radius:50%;margin:0 auto 16px;
-    display:grid;place-items:center;font-weight:800;font-size:20px;background:var(--grad);color:#fff}
-  .step .num::before{content:counter(s)}
-  .step h3{font-size:18px;margin-bottom:6px}
+  /* ---- Stat band ---- */
+  .statband{border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);
+    background:linear-gradient(180deg,rgba(231,180,76,.03),transparent)}
+  .statband .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:44px 26px}
+  .stat{text-align:center}
+  .stat .n{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;
+    letter-spacing:-.02em;color:var(--text)}
+  .stat .n em{font-style:normal;color:var(--gold)}
+  .stat .l{color:var(--muted);font-size:13px;font-weight:600;margin-top:9px;letter-spacing:.02em}
+
+  /* ---- Section frame ---- */
+  section{padding:104px 0;position:relative}
+  .sec-head{max-width:640px}
+  .sec-head h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.4vw,52px);
+    line-height:1.04;letter-spacing:-.02em;margin:16px 0 0}
+  .sec-head p{color:var(--muted);font-size:17.5px;margin-top:18px;line-height:1.6}
+
+  /* ---- Bento features ---- */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(180px,auto);gap:16px;margin-top:52px}
+  .cell{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line2);
+    border-radius:22px;padding:26px;position:relative;overflow:hidden;
+    transition:transform .3s,border-color .3s,box-shadow .3s}
+  .cell:hover{transform:translateY(-4px);border-color:var(--line);box-shadow:0 24px 50px -24px rgba(0,0,0,.7)}
+  .cell .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;
+    background:radial-gradient(closest-side,rgba(231,180,76,.2),rgba(231,180,76,.05));border:1px solid var(--line)}
+  .cell h3{font-family:var(--display);font-weight:600;font-size:21px;margin:18px 0 8px;letter-spacing:-.01em}
+  .cell p{color:var(--muted);font-size:15px;line-height:1.55}
+  .cell.big{grid-column:span 3;grid-row:span 2}
+  .cell.wide{grid-column:span 3}
+  .cell.norm{grid-column:span 2}
+  .cell.big .bigfig{position:absolute;right:-30px;bottom:-30px;font-family:var(--display);
+    font-size:190px;font-weight:600;color:rgba(231,180,76,.06);line-height:1;pointer-events:none}
+  .cell.big h3{font-size:27px;margin-top:24px}
+  .cell.big p{font-size:16.5px;max-width:36ch}
+
+  /* ---- Steps ---- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+  .step{position:relative;padding:30px 26px;border:1px solid var(--line2);border-radius:20px;
+    background:linear-gradient(180deg,var(--card),transparent)}
+  .step .num{font-family:var(--display);font-weight:600;font-size:44px;color:var(--gold);line-height:1;
+    -webkit-text-stroke:0;opacity:.95}
+  .step h3{font-family:var(--display);font-weight:600;font-size:20px;margin:16px 0 8px}
   .step p{color:var(--muted);font-size:15px}
 
-  /* Screenshots */
-  .shots{display:flex;gap:22px;overflow-x:auto;padding:8px 4px 20px;scroll-snap-type:x mandatory}
-  .phone{flex:0 0 auto;width:248px;scroll-snap-align:center;border-radius:34px;padding:10px;
-    background:linear-gradient(160deg,#1c2244,#0e1228);border:1px solid var(--line);
-    box-shadow:0 24px 60px rgba(0,0,0,.5)}
-  .phone .screen{border-radius:26px;overflow:hidden;aspect-ratio:9/19.5;background:#0b0e1f;
-    display:grid;place-items:center;text-align:center;color:var(--muted);font-size:13px;padding:18px}
-  .phone img{width:100%;height:100%;object-fit:cover;display:block}
-  .phone .cap{text-align:center;color:var(--muted);font-size:13px;padding:12px 6px 4px}
+  /* ---- Screenshots ---- */
+  .gallery{display:flex;gap:24px;overflow-x:auto;padding:52px 4px 16px;scroll-snap-type:x mandatory;
+    scrollbar-width:none}
+  .gallery::-webkit-scrollbar{display:none}
+  .shot{flex:0 0 auto;width:250px;scroll-snap-align:center}
+  .shot .frame{border-radius:34px;padding:9px;background:linear-gradient(160deg,#221d16,#0d0b09);
+    box-shadow:0 30px 60px -28px rgba(0,0,0,.8),0 0 0 1px rgba(231,180,76,.14);transition:transform .35s}
+  .shot:hover .frame{transform:translateY(-8px)}
+  .shot .frame .scr{border-radius:26px;overflow:hidden;aspect-ratio:9/19.5;background:#0b0e1f}
+  .shot .frame .scr img{width:100%;height:100%;object-fit:cover}
+  .shot .cap{text-align:center;color:var(--muted);font-size:14px;margin-top:16px;font-weight:600}
 
-  /* Pricing */
-  .tiers{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px;margin:0 auto}
-  .tier{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px}
-  .tier.pro{border-color:rgba(120,90,248,.5);background:linear-gradient(180deg,rgba(120,90,248,.12),var(--card))}
-  .tier h3{font-size:20px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
-  .tier .price{font-size:15px;color:var(--muted);margin-bottom:20px}
-  .tier ul{list-style:none;display:flex;flex-direction:column;gap:11px}
-  .tier li{display:flex;gap:10px;font-size:15px;color:var(--text)}
-  .tier li.no{color:var(--muted)}
-  .check{color:#34d399;font-weight:700}
-  .badge{font-size:11px;font-weight:700;background:var(--grad);color:#fff;padding:3px 9px;border-radius:999px}
+  /* ---- Pricing ---- */
+  .tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:52px}
+  .tier{border:1px solid var(--line2);border-radius:24px;padding:34px;background:linear-gradient(180deg,var(--card),var(--bg2))}
+  .tier.pro{border-color:var(--line);background:
+    linear-gradient(180deg,rgba(231,180,76,.08),transparent),linear-gradient(180deg,var(--card2),var(--bg2));
+    box-shadow:0 30px 70px -40px rgba(231,180,76,.4)}
+  .tier .th{display:flex;align-items:center;gap:12px}
+  .tier h3{font-family:var(--display);font-weight:600;font-size:25px}
+  .tier .badge{font-size:11px;font-weight:800;letter-spacing:.12em;color:#241a06;background:var(--gold);
+    padding:4px 10px;border-radius:100px;text-transform:uppercase}
+  .tier .price{color:var(--muted);font-size:15px;margin:12px 0 22px;font-weight:600}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .tier li{display:flex;align-items:flex-start;gap:11px;font-size:15px;color:var(--text)}
+  .tier li.no{color:var(--faint)}
+  .tier li .ck{color:var(--gold);font-weight:800;flex:0 0 auto}
+  .tier li.no .ck{color:var(--faint)}
+  .tier .btn{margin-top:26px;width:100%;justify-content:center}
 
-  /* FAQ */
-  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 20px}
-  summary{cursor:pointer;padding:16px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  /* ---- FAQ ---- */
+  .faq{margin-top:48px;max-width:820px}
+  details{border-bottom:1px solid var(--line2);padding:4px 0}
+  summary{list-style:none;cursor:pointer;padding:22px 4px;font-weight:700;font-size:17.5px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;transition:color .2s}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";color:var(--blue);font-size:22px;font-weight:400}
-  details[open] summary::after{content:"–"}
-  details p{color:var(--muted);padding:0 0 18px;font-size:15px}
+  summary:hover{color:var(--gold)}
+  summary .pm{font-family:var(--display);font-size:24px;color:var(--gold);transition:transform .3s;line-height:1}
+  details[open] summary .pm{transform:rotate(45deg)}
+  details p{color:var(--muted);font-size:15.5px;padding:0 4px 24px;line-height:1.65;max-width:70ch}
 
-  /* CTA band */
-  .cta-band{background:var(--grad);border-radius:26px;padding:56px 32px;text-align:center;margin:0 24px}
-  .cta-band h2{font-size:clamp(24px,3.5vw,36px);color:#fff;margin-bottom:12px;font-weight:800}
-  .cta-band p{color:rgba(255,255,255,.9);margin-bottom:26px;font-size:17px}
-  .cta-band .btn{background:#fff;color:#1a1140}
+  /* ---- CTA band ---- */
+  .cta{margin:0 auto 96px;width:calc(100% - 52px);border-radius:34px;overflow:hidden;position:relative;
+    background:linear-gradient(135deg,var(--gold-hi),var(--gold) 55%,var(--gold-deep));
+    max-width:var(--maxw)}
+  .cta .in{position:relative;z-index:2;text-align:center;padding:70px 26px}
+  .cta h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,48px);color:#241a06;letter-spacing:-.02em}
+  .cta p{color:#3a2c0c;font-size:17px;margin:14px auto 30px;max-width:44ch;font-weight:600}
+  .cta .btn{background:#0A0908;color:var(--gold-hi);box-shadow:0 14px 34px -10px rgba(0,0,0,.5)}
+  .cta .btn:hover{transform:translateY(-2px);background:#000}
+  .cta .glow{position:absolute;inset:0;z-index:1;opacity:.5;
+    background:radial-gradient(40% 60% at 20% 20%,rgba(255,255,255,.5),transparent 60%)}
 
-  /* Footer */
-  footer{border-top:1px solid var(--line);padding:46px 0;margin-top:40px}
-  footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
-  footer .links{display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-  footer .links a:hover{color:var(--text)}
-  footer .copy{font-size:13px;color:var(--muted)}
+  /* ---- Footer ---- */
+  footer{border-top:1px solid var(--line);padding:52px 0 60px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between}
+  footer .brand img{width:30px;height:30px}
+  .flinks{display:flex;gap:26px;flex-wrap:wrap}
+  .flinks a{color:var(--muted);font-size:14.5px;font-weight:600;transition:color .2s}
+  .flinks a:hover{color:var(--gold)}
+  .copy{color:var(--faint);font-size:13.5px;width:100%;padding-top:8px}
 
-  @media(max-width:820px){
-    .grid,.steps{grid-template-columns:1fr}
+  /* ---- Reveal animation ---- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @keyframes floatUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  .hero .anim{opacity:0;animation:floatUp .9s cubic-bezier(.2,.8,.2,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.28s}.d4{animation-delay:.4s}.d5{animation-delay:.52s}
+  @media (prefers-reduced-motion:reduce){
+    .reveal,.hero .anim{opacity:1;transform:none;animation:none}
+    .device{transform:none}
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width:920px){
+    .hero .wrap{grid-template-columns:1fr;gap:10px}
+    .device-stage{min-height:480px;margin-top:20px}
+    .device{transform:perspective(1600px) rotateY(-8deg) rotateX(3deg)}
+    .statband .wrap{grid-template-columns:repeat(2,1fr);gap:30px 20px}
+    .bento{grid-template-columns:repeat(2,1fr)}
+    .cell.big,.cell.wide,.cell.norm{grid-column:span 2;grid-row:auto}
+    .steps{grid-template-columns:1fr}
     .tiers{grid-template-columns:1fr}
+  }
+  @media (max-width:520px){
+    section{padding:72px 0}
+    .hero{padding:52px 0 20px}
+    .float-badge{display:none}
+    .statband .wrap{grid-template-columns:1fr 1fr}
+    nav .brand span{display:none}
   }
 </style>
 </head>
@@ -139,62 +252,115 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#"><img src="assets/guardi-logo-256.png" alt="Guardi">Guardi</a>
-    <a class="btn btn-primary" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">App Store'da İndir</a>
+    <a class="brand" href="#top"><img src="assets/guardi-logo-256.png" alt="Guardi"><span>Guardi</span></a>
+    <a class="btn btn-gold" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">
+      <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268c-.2-37 16.7-64.9 50.9-85.5-19.1-27.3-48-42.3-86.2-45.3-36.2-2.8-75.8 21.2-90.3 21.2-15.3 0-50.3-20.2-77.9-20.2C64.4 138.7 4 179.9 4 263.8c0 24.8 4.5 50.4 13.6 76.8 12.1 34.7 55.7 119.9 101.2 118.5 23.8-.6 40.6-16.9 71.6-16.9 30 0 45.6 16.9 71.9 16.9 45.9-.7 85.4-78.1 96.9-112.9-61.6-29-58.5-84.9-58.5-86.2zM255.1 91.5c30.6-36.3 27.8-69.4 26.9-81.4-26.9 1.5-58 18.3-75.7 39-19.5 22.2-31 49.7-28.5 80.8 29.1 2.2 55.7-12.8 77.3-38.4z"/></svg>
+      App Store'da İndir
+    </a>
   </div>
 </nav>
+
+<span id="top"></span>
 
 <!-- HERO -->
 <header class="hero">
   <div class="wrap">
-    <img class="icon" src="assets/guardi-icon-1024.png" alt="Guardi uygulama ikonu">
-    <div class="pill"><span class="dot"></span> Gizlilik öncelikli · Tüm işlem cihazında</div>
-    <h1>Spam aramalara ve<br><span class="grad-text">dolandırıcılık SMS'lerine</span> son</h1>
-    <p class="sub">Guardi, iPhone'unu binlerce spam numaradan otomatik korur ve şüpheli mesajları yapay zeka ile filtreler. Mesaj içeriğin hiçbir yere gönderilmez.</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">App Store'da İndir</a>
-      <a class="btn btn-ghost" href="#ozellikler">Özellikleri Gör</a>
+    <div>
+      <div class="eyebrow anim d1">Gizlilik öncelikli · Tüm işlem cihazında</div>
+      <h1>
+        <span class="anim d2">Spam aramalara</span>
+        <span class="anim d3">ve <span class="ital">dolandırıcılığa</span></span>
+        <span class="anim d4">son.</span>
+      </h1>
+      <p class="sub anim d4">Guardi, iPhone'unu binlerce spam numaradan otomatik korur ve şüpheli mesajları yapay zeka ile cihazında filtreler. Mesaj içeriğin hiçbir yere gönderilmez.</p>
+      <div class="cta-row anim d5">
+        <a class="btn btn-gold" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">
+          <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268c-.2-37 16.7-64.9 50.9-85.5-19.1-27.3-48-42.3-86.2-45.3-36.2-2.8-75.8 21.2-90.3 21.2-15.3 0-50.3-20.2-77.9-20.2C64.4 138.7 4 179.9 4 263.8c0 24.8 4.5 50.4 13.6 76.8 12.1 34.7 55.7 119.9 101.2 118.5 23.8-.6 40.6-16.9 71.6-16.9 30 0 45.6 16.9 71.9 16.9 45.9-.7 85.4-78.1 96.9-112.9-61.6-29-58.5-84.9-58.5-86.2zM255.1 91.5c30.6-36.3 27.8-69.4 26.9-81.4-26.9 1.5-58 18.3-75.7 39-19.5 22.2-31 49.7-28.5 80.8 29.1 2.2 55.7-12.8 77.3-38.4z"/></svg>
+          App Store'da İndir
+        </a>
+        <a class="btn btn-ghost" href="#ozellikler">Özellikleri Gör</a>
+      </div>
+      <div class="microtrust anim d5"><b>Ücretsiz başla</b><span class="dotsep"></span>Türkiye için özel liste<span class="dotsep"></span>iPhone</div>
+    </div>
+
+    <div class="device-stage anim d3">
+      <div class="halo"></div>
+      <div class="device">
+        <div class="notch"></div>
+        <div class="glass"><img src="assets/shots/home.png" alt="Guardi koruma durumu ekranı"></div>
+      </div>
+      <div class="float-badge fb-1"><div class="ic">📵</div><div><div class="t">Engellenen seri</div><div class="v">581.300+</div></div></div>
+      <div class="float-badge fb-2"><div class="ic">🛡️</div><div><div class="t">Koruma</div><div class="v gold">Aktif</div></div></div>
     </div>
   </div>
 </header>
 
-<!-- TRUST -->
-<div class="trust">
-  <div class="wrap">
-    <span>📵 Binlerce numara serisi engellenir</span>
-    <span>🧠 Yapay zeka destekli SMS analizi</span>
-    <span>🔒 Mesaj içeriği cihazdan çıkmaz</span>
-    <span>🇹🇷 Türkiye için özel liste</span>
+<!-- STAT BAND -->
+<div class="statband">
+  <div class="wrap reveal">
+    <div class="stat"><div class="n"><em>581.300+</em></div><div class="l">Engellenen spam numara</div></div>
+    <div class="stat"><div class="n">%100</div><div class="l">Cihazda analiz</div></div>
+    <div class="stat"><div class="n">65+</div><div class="l">Akıllı anahtar kelime</div></div>
+    <div class="stat"><div class="n">🇹🇷</div><div class="l">Türkiye'ye özel</div></div>
   </div>
 </div>
 
 <!-- FEATURES -->
 <section id="ozellikler">
   <div class="wrap">
-    <div class="eyebrow">Özellikler</div>
-    <h2 class="title">Tek uygulamada tam koruma</h2>
-    <p class="lead">Guardi, iOS'un yerleşik arama engelleme ve SMS filtreleme sistemiyle birlikte çalışır — pil dostu, arka planda, sessizce.</p>
-    <div class="grid">
-      <div class="feat"><div class="ico">📵</div><h3>Spam Arama Engelleme</h3><p>Bilinen spam numara serilerini tek seferde engeller; binlerce numara otomatik kapsanır.</p></div>
-      <div class="feat"><div class="ico">💬</div><h3>SMS Filtreleme</h3><p>Dolandırıcılık, bahis ve reklam mesajları otomatik olarak Önemsiz klasörüne taşınır.</p></div>
-      <div class="feat"><div class="ico">✨</div><h3>Akıllı SMS Analizi</h3><p>Listede olmayan mesajları link, sahte gönderici ve kimlik avı sinyalleriyle analiz eder.</p></div>
-      <div class="feat"><div class="ico">🔎</div><h3>Numara Sorgula</h3><p>Herhangi bir numarayı spam listesinde ve topluluk bildirimlerinde anında sorgula.</p></div>
-      <div class="feat"><div class="ico">👥</div><h3>Topluluk Koruması</h3><p>Spam numara bildir, onaylanan bildirimlerle tüm kullanıcıların korunmasına katkı sağla.</p></div>
-      <div class="feat"><div class="ico">📲</div><h3>Widget & Kısayollar</h3><p>Ana ekran widget'ı ve Siri kısayollarıyla koruma durumun hep elinin altında.</p></div>
+    <div class="sec-head reveal">
+      <div class="eyebrow">Özellikler</div>
+      <h2>Tek uygulamada <span class="ital">tam koruma</span></h2>
+      <p>Guardi, iOS'un yerleşik arama engelleme ve SMS filtreleme sistemiyle birlikte çalışır — pil dostu, arka planda, sessizce.</p>
+    </div>
+    <div class="bento">
+      <div class="cell big reveal">
+        <div class="ic">📵</div>
+        <h3>Spam Arama Engelleme</h3>
+        <p>Bilinen spam numara serilerini tek seferde engeller; binlerce numara otomatik kapsanır. Rehberindeki kişilere asla dokunulmaz.</p>
+        <div class="bigfig">581K</div>
+      </div>
+      <div class="cell norm reveal">
+        <div class="ic">💬</div>
+        <h3>SMS Filtreleme</h3>
+        <p>Dolandırıcılık, bahis ve reklam mesajları otomatik Önemsiz klasörüne taşınır.</p>
+      </div>
+      <div class="cell norm reveal">
+        <div class="ic">✨</div>
+        <h3>Akıllı SMS Analizi</h3>
+        <p>Listede olmayan mesajları link, sahte gönderici ve kimlik avı sinyalleriyle inceler.</p>
+      </div>
+      <div class="cell norm reveal">
+        <div class="ic">🔎</div>
+        <h3>Numara Sorgula</h3>
+        <p>Herhangi bir numarayı spam listesinde ve topluluk bildirimlerinde anında sorgula.</p>
+      </div>
+      <div class="cell norm reveal">
+        <div class="ic">👥</div>
+        <h3>Topluluk Koruması</h3>
+        <p>Spam numara bildir, onaylı bildirimlerle tüm kullanıcıların korunmasına katkı sağla.</p>
+      </div>
+      <div class="cell wide reveal">
+        <div class="ic">📲</div>
+        <h3>Widget & Siri Kısayolları</h3>
+        <p>Ana ekran widget'ı ve Siri kısayollarıyla koruma durumun ve listeni her an elinin altında.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- HOW -->
-<section style="background:rgba(255,255,255,.015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section style="background:linear-gradient(180deg,var(--bg2),transparent);border-top:1px solid var(--line2)">
   <div class="wrap">
-    <div class="eyebrow">Nasıl Çalışır</div>
-    <h2 class="title">3 adımda koru</h2>
-    <p class="lead">Kurulum bir kez yapılır; gerisini Guardi arka planda halleder.</p>
+    <div class="sec-head reveal">
+      <div class="eyebrow">Nasıl Çalışır</div>
+      <h2>Üç adımda <span class="ital">koru</span></h2>
+      <p>Kurulum bir kez yapılır; gerisini Guardi arka planda halleder.</p>
+    </div>
     <div class="steps">
-      <div class="step"><div class="num"></div><h3>Guardi'yi indir</h3><p>App Store'dan yükle ve uygulamayı aç.</p></div>
-      <div class="step"><div class="num"></div><h3>İzinleri ver</h3><p>Telefon ve Mesajlar ayarlarından Guardi'yi etkinleştir — rehberdeki adımlarla saniyeler içinde.</p></div>
-      <div class="step"><div class="num"></div><h3>Korunmaya başla</h3><p>Spam aramalar engellenir, dolandırıcılık SMS'leri Önemsiz'e taşınır.</p></div>
+      <div class="step reveal"><div class="num">01</div><h3>Guardi'yi indir</h3><p>App Store'dan yükle ve uygulamayı aç.</p></div>
+      <div class="step reveal"><div class="num">02</div><h3>İzinleri ver</h3><p>Telefon ve Mesajlar ayarlarından Guardi'yi etkinleştir — rehberdeki adımlarla saniyeler içinde.</p></div>
+      <div class="step reveal"><div class="num">03</div><h3>Korunmaya başla</h3><p>Spam aramalar engellenir, dolandırıcılık SMS'leri Önemsiz'e taşınır.</p></div>
     </div>
   </div>
 </section>
@@ -202,52 +368,56 @@
 <!-- SCREENSHOTS -->
 <section>
   <div class="wrap">
-    <div class="eyebrow">Ekran Görüntüleri</div>
-    <h2 class="title">Sade, anlaşılır arayüz</h2>
-    <p class="lead">Koyu, sade ve dikkat dağıtmayan bir arayüz — koruma durumun tek bakışta.</p>
-    <div class="shots">
-      <div class="phone"><div class="screen"><img src="assets/shots/home.png" alt="Guardi koruma durumu ekranı" loading="lazy"></div><div class="cap">Tek bakışta koruma durumu</div></div>
-      <div class="phone"><div class="screen"><img src="assets/shots/sms.png" alt="Guardi SMS filtresi ekranı" loading="lazy"></div><div class="cap">Akıllı SMS filtresi</div></div>
-      <div class="phone"><div class="screen"><img src="assets/shots/lookup.png" alt="Guardi numara sorgulama ekranı" loading="lazy"></div><div class="cap">Anında numara sorgulama</div></div>
-      <div class="phone"><div class="screen"><img src="assets/shots/community.png" alt="Guardi topluluk bildirimleri ekranı" loading="lazy"></div><div class="cap">Topluluk koruması</div></div>
+    <div class="sec-head reveal">
+      <div class="eyebrow">Ekran Görüntüleri</div>
+      <h2>Koyu, sade, <span class="ital">güven veren</span></h2>
+      <p>Dikkat dağıtmayan bir arayüz — koruma durumun tek bakışta.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="gallery reveal">
+      <div class="shot"><div class="frame"><div class="scr"><img src="assets/shots/home.png" alt="Koruma durumu" loading="lazy"></div></div><div class="cap">Tek bakışta koruma durumu</div></div>
+      <div class="shot"><div class="frame"><div class="scr"><img src="assets/shots/sms.png" alt="SMS filtresi" loading="lazy"></div></div><div class="cap">Akıllı SMS filtresi</div></div>
+      <div class="shot"><div class="frame"><div class="scr"><img src="assets/shots/lookup.png" alt="Numara sorgulama" loading="lazy"></div></div><div class="cap">Anında numara sorgulama</div></div>
+      <div class="shot"><div class="frame"><div class="scr"><img src="assets/shots/community.png" alt="Topluluk bildirimleri" loading="lazy"></div></div><div class="cap">Topluluk koruması</div></div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="indir" style="background:rgba(255,255,255,.015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section id="indir" style="background:linear-gradient(180deg,var(--bg2),transparent);border-top:1px solid var(--line2)">
   <div class="wrap">
-    <div class="eyebrow">Planlar</div>
-    <h2 class="title">Ücretsiz başla, Pro ile güçlendir</h2>
-    <p class="lead">Temel koruma herkese ücretsiz. Pro; yapay zeka filtresi, onaylı topluluk listesi ve detaylı raporlar ekler.</p>
+    <div class="sec-head reveal">
+      <div class="eyebrow">Planlar</div>
+      <h2>Ücretsiz başla, <span class="ital">Pro</span> ile güçlendir</h2>
+      <p>Temel koruma herkese ücretsiz. Pro; yapay zeka filtresi, onaylı topluluk listesi ve detaylı raporlar ekler.</p>
+    </div>
     <div class="tiers">
-      <div class="tier">
-        <h3>Standart</h3>
+      <div class="tier reveal">
+        <div class="th"><h3>Standart</h3></div>
         <div class="price">Ücretsiz</div>
         <ul>
-          <li><span class="check">✓</span> Spam arama engelleme</li>
-          <li><span class="check">✓</span> Temel SMS filtreleme</li>
-          <li><span class="check">✓</span> Numara sorgulama</li>
-          <li><span class="check">✓</span> 15 kritik anahtar kelime</li>
-          <li class="no">— Yapay zeka SMS filtresi</li>
-          <li class="no">— Onaylı topluluk listesi</li>
+          <li><span class="ck">✓</span> Spam arama engelleme</li>
+          <li><span class="ck">✓</span> Temel SMS filtreleme</li>
+          <li><span class="ck">✓</span> Numara sorgulama</li>
+          <li><span class="ck">✓</span> 15 kritik anahtar kelime</li>
+          <li class="no"><span class="ck">—</span> Yapay zeka SMS filtresi</li>
+          <li class="no"><span class="ck">—</span> Onaylı topluluk listesi</li>
         </ul>
       </div>
-      <div class="tier pro">
-        <h3>Guardi Pro <span class="badge">ÖNERİLEN</span></h3>
+      <div class="tier pro reveal">
+        <div class="th"><h3>Guardi Pro</h3><span class="badge">Önerilen</span></div>
         <div class="price">Aylık / Yıllık abonelik</div>
         <ul>
-          <li><span class="check">✓</span> Standart'taki her şey</li>
-          <li><span class="check">✓</span> Yapay zeka Akıllı SMS Filtresi</li>
-          <li><span class="check">✓</span> 65+ anahtar kelime + hassasiyet ayarı</li>
-          <li><span class="check">✓</span> Onaylı topluluk spam listesi</li>
-          <li><span class="check">✓</span> Detaylı koruma raporu</li>
-          <li><span class="check">✓</span> Güncel spam listesi (otomatik)</li>
+          <li><span class="ck">✓</span> Standart'taki her şey</li>
+          <li><span class="ck">✓</span> Yapay zeka Akıllı SMS Filtresi</li>
+          <li><span class="ck">✓</span> 65+ anahtar kelime + hassasiyet ayarı</li>
+          <li><span class="ck">✓</span> Onaylı topluluk spam listesi</li>
+          <li><span class="ck">✓</span> Detaylı koruma raporu</li>
+          <li><span class="ck">✓</span> Güncel spam listesi (otomatik)</li>
         </ul>
+        <a class="btn btn-gold" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">App Store'da İndir</a>
       </div>
-    </div>
-    <div style="text-align:center;margin-top:36px">
-      <a class="btn btn-primary" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener" aria-label="App Store">App Store'da İndir</a>
     </div>
   </div>
 </section>
@@ -255,37 +425,54 @@
 <!-- FAQ -->
 <section>
   <div class="wrap">
-    <div class="eyebrow">SSS</div>
-    <h2 class="title">Sık sorulan sorular</h2>
-    <div class="faq" style="margin-top:40px">
-      <details><summary>Guardi mesajlarımı okuyor mu?</summary><p>Hayır. Tüm SMS analizi cihazında gerçekleşir; mesaj içeriği hiçbir sunucuya gönderilmez. Filtreleme yalnızca bilinmeyen gönderenlere uygulanır, rehberindeki kişilere dokunulmaz.</p></details>
-      <details><summary>Aramalar nasıl engelleniyor?</summary><p>Guardi, iOS'un CallKit arama engelleme sistemine spam numara serilerini yükler. Ayarlar → Telefon → Arama Engelleme bölümünden Guardi'yi etkinleştirmen yeterli.</p></details>
-      <details><summary>Pro aboneliği zorunlu mu?</summary><p>Hayır. Spam arama engelleme, temel SMS filtreleme ve numara sorgulama ücretsizdir. Pro yalnızca yapay zeka filtresi, onaylı topluluk listesi ve detaylı raporlar gibi ek özellikleri açar.</p></details>
-      <details><summary>Spam listesi güncel kalıyor mu?</summary><p>Evet. Liste düzenli olarak güncellenir; Pro kullanıcılar için günde bir kez arka planda otomatik senkronize edilir. İstediğin an manuel de güncelleyebilirsin.</p></details>
-      <details><summary>Hangi numaralar destekleniyor?</summary><p>Türkiye numaraları için optimize edilmiştir. Numaraları 05XX, +90 veya 90 biçiminde girebilirsin; uygulama otomatik olarak doğru formata çevirir.</p></details>
+    <div class="sec-head reveal">
+      <div class="eyebrow">SSS</div>
+      <h2>Sık sorulan <span class="ital">sorular</span></h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Guardi mesajlarımı okuyor mu?<span class="pm">+</span></summary><p>Hayır. Tüm SMS analizi cihazında gerçekleşir; mesaj içeriği hiçbir sunucuya gönderilmez. Filtreleme yalnızca bilinmeyen gönderenlere uygulanır, rehberindeki kişilere dokunulmaz.</p></details>
+      <details><summary>Aramalar nasıl engelleniyor?<span class="pm">+</span></summary><p>Guardi, iOS'un CallKit arama engelleme sistemine spam numara serilerini yükler. Ayarlar → Telefon → Arama Engelleme bölümünden Guardi'yi etkinleştirmen yeterli.</p></details>
+      <details><summary>Pro aboneliği zorunlu mu?<span class="pm">+</span></summary><p>Hayır. Spam arama engelleme, temel SMS filtreleme ve numara sorgulama ücretsizdir. Pro yalnızca yapay zeka filtresi, onaylı topluluk listesi ve detaylı raporlar gibi ek özellikleri açar.</p></details>
+      <details><summary>Spam listesi güncel kalıyor mu?<span class="pm">+</span></summary><p>Evet. Liste düzenli olarak güncellenir; Pro kullanıcılar için günde bir kez arka planda otomatik senkronize edilir. İstediğin an manuel de güncelleyebilirsin.</p></details>
+      <details><summary>Hangi numaralar destekleniyor?<span class="pm">+</span></summary><p>Türkiye numaraları için optimize edilmiştir. Numaraları 05XX, +90 veya 90 biçiminde girebilirsin; uygulama otomatik olarak doğru formata çevirir.</p></details>
     </div>
   </div>
 </section>
 
-<!-- CTA BAND -->
-<div class="cta-band">
-  <h2>Bugün korunmaya başla</h2>
-  <p>Spam aramalar ve dolandırıcılık SMS'leri için iPhone'una ikinci bir kalkan ekle.</p>
-  <a class="btn" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">App Store'da İndir</a>
+<!-- CTA -->
+<div class="cta reveal">
+  <div class="glow"></div>
+  <div class="in">
+    <h2>Bugün korunmaya başla</h2>
+    <p>Spam aramalar ve dolandırıcılık SMS'leri için iPhone'una ikinci bir kalkan ekle.</p>
+    <a class="btn" href="https://apps.apple.com/tr/app/id6760951651" target="_blank" rel="noopener">
+      <svg class="apple" viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268c-.2-37 16.7-64.9 50.9-85.5-19.1-27.3-48-42.3-86.2-45.3-36.2-2.8-75.8 21.2-90.3 21.2-15.3 0-50.3-20.2-77.9-20.2C64.4 138.7 4 179.9 4 263.8c0 24.8 4.5 50.4 13.6 76.8 12.1 34.7 55.7 119.9 101.2 118.5 23.8-.6 40.6-16.9 71.6-16.9 30 0 45.6 16.9 71.9 16.9 45.9-.7 85.4-78.1 96.9-112.9-61.6-29-58.5-84.9-58.5-86.2zM255.1 91.5c30.6-36.3 27.8-69.4 26.9-81.4-26.9 1.5-58 18.3-75.7 39-19.5 22.2-31 49.7-28.5 80.8 29.1 2.2 55.7-12.8 77.3-38.4z"/></svg>
+      App Store'da İndir
+    </a>
+  </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <a class="brand" href="#"><img src="assets/guardi-logo-256.png" alt="Guardi" style="width:28px;height:28px">Guardi</a>
-    <div class="links">
+    <a class="brand" href="#top"><img src="assets/guardi-logo-256.png" alt="Guardi"><span>Guardi</span></a>
+    <div class="flinks">
       <a href="https://dogancanh.github.io/guardi-privacy/">Gizlilik Politikası</a>
       <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Kullanım Koşulları</a>
       <a href="mailto:info@genesisveri.com">İletişim</a>
     </div>
-    <div class="copy">© 2026 Guardi · doggysoft</div>
+    <div class="copy">© 2026 Guardi · doggysoft · Türkiye</div>
   </div>
 </footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
