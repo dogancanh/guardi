@@ -13,14 +13,14 @@
 <link rel="icon" type="image/png" href="assets/guardi-icon-1024.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0A0908; --bg2:#100E0C; --card:#151210; --card2:#1C1815;
     --gold:#E7B44C; --gold-hi:#F6D386; --gold-deep:#B4832E;
     --text:#F3EEE3; --muted:#A89E8B; --faint:#6E6656;
     --line:rgba(231,180,76,.14); --line2:rgba(255,255,255,.06);
-    --display:"Fraunces",Georgia,serif;
+    --display:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     --body:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     --maxw:1180px;
   }
@@ -53,7 +53,10 @@
   .eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
   .serif{font-family:var(--display)}
   .gold{color:var(--gold)}
-  .ital{font-family:var(--display);font-style:italic;font-weight:500;color:var(--gold)}
+  .ital{color:var(--gold);font-weight:800}
+  /* Line icons */
+  .ic svg{width:23px;height:23px;stroke:var(--gold);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .float-badge .ic svg{width:19px;height:19px}
 
   /* ---- Buttons ---- */
   .btn{display:inline-flex;align-items:center;gap:9px;border-radius:100px;padding:14px 26px;
@@ -70,15 +73,15 @@
   nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px) saturate(1.2);
     background:rgba(10,9,8,.72);border-bottom:1px solid var(--line2)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
-  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:.01em}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
   .brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 4px 16px rgba(231,180,76,.28)}
   nav .btn{padding:11px 22px;font-size:14px}
 
   /* ---- Hero ---- */
   .hero{position:relative;padding:88px 0 40px}
   .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(44px,6.4vw,82px);line-height:.98;
-    letter-spacing:-.02em;margin:22px 0 0}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(42px,6vw,76px);line-height:1.02;
+    letter-spacing:-.035em;margin:22px 0 0}
   .hero h1 .line{display:block;overflow:hidden}
   .hero .sub{color:var(--muted);font-size:19px;max-width:30ch;margin-top:26px;line-height:1.55}
   .hero .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
@@ -107,7 +110,7 @@
   .float-badge .ic{width:34px;height:34px;border-radius:10px;background:rgba(231,180,76,.14);
     display:grid;place-items:center;font-size:17px}
   .float-badge .t{font-size:12px;color:var(--muted);font-weight:600}
-  .float-badge .v{font-family:var(--display);font-weight:600;font-size:16px}
+  .float-badge .v{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.02em}
   .fb-1{top:12%;left:-6%}
   .fb-2{bottom:14%;right:-8%}
 
@@ -116,16 +119,16 @@
     background:linear-gradient(180deg,rgba(231,180,76,.03),transparent)}
   .statband .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:44px 26px}
   .stat{text-align:center}
-  .stat .n{font-family:var(--display);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;
-    letter-spacing:-.02em;color:var(--text)}
+  .stat .n{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,46px);line-height:1;
+    letter-spacing:-.035em;color:var(--text)}
   .stat .n em{font-style:normal;color:var(--gold)}
   .stat .l{color:var(--muted);font-size:13px;font-weight:600;margin-top:9px;letter-spacing:.02em}
 
   /* ---- Section frame ---- */
   section{padding:104px 0;position:relative}
   .sec-head{max-width:640px}
-  .sec-head h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.4vw,52px);
-    line-height:1.04;letter-spacing:-.02em;margin:16px 0 0}
+  .sec-head h2{font-family:var(--display);font-weight:800;font-size:clamp(31px,4.2vw,48px);
+    line-height:1.05;letter-spacing:-.03em;margin:16px 0 0}
   .sec-head p{color:var(--muted);font-size:17.5px;margin-top:18px;line-height:1.6}
 
   /* ---- Bento features ---- */
@@ -136,7 +139,7 @@
   .cell:hover{transform:translateY(-4px);border-color:var(--line);box-shadow:0 24px 50px -24px rgba(0,0,0,.7)}
   .cell .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;
     background:radial-gradient(closest-side,rgba(231,180,76,.2),rgba(231,180,76,.05));border:1px solid var(--line)}
-  .cell h3{font-family:var(--display);font-weight:600;font-size:21px;margin:18px 0 8px;letter-spacing:-.01em}
+  .cell h3{font-family:var(--display);font-weight:700;font-size:20px;margin:18px 0 8px;letter-spacing:-.02em}
   .cell p{color:var(--muted);font-size:15px;line-height:1.55}
   .cell.big{grid-column:span 3;grid-row:span 2}
   .cell.wide{grid-column:span 3}
@@ -150,9 +153,9 @@
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
   .step{position:relative;padding:30px 26px;border:1px solid var(--line2);border-radius:20px;
     background:linear-gradient(180deg,var(--card),transparent)}
-  .step .num{font-family:var(--display);font-weight:600;font-size:44px;color:var(--gold);line-height:1;
-    -webkit-text-stroke:0;opacity:.95}
-  .step h3{font-family:var(--display);font-weight:600;font-size:20px;margin:16px 0 8px}
+  .step .num{font-family:var(--display);font-weight:800;font-size:42px;color:var(--gold);line-height:1;
+    letter-spacing:-.03em;opacity:.95}
+  .step h3{font-family:var(--display);font-weight:700;font-size:19px;margin:16px 0 8px;letter-spacing:-.02em}
   .step p{color:var(--muted);font-size:15px}
 
   /* ---- Screenshots ---- */
@@ -174,7 +177,7 @@
     linear-gradient(180deg,rgba(231,180,76,.08),transparent),linear-gradient(180deg,var(--card2),var(--bg2));
     box-shadow:0 30px 70px -40px rgba(231,180,76,.4)}
   .tier .th{display:flex;align-items:center;gap:12px}
-  .tier h3{font-family:var(--display);font-weight:600;font-size:25px}
+  .tier h3{font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.02em}
   .tier .badge{font-size:11px;font-weight:800;letter-spacing:.12em;color:#241a06;background:var(--gold);
     padding:4px 10px;border-radius:100px;text-transform:uppercase}
   .tier .price{color:var(--muted);font-size:15px;margin:12px 0 22px;font-weight:600}
@@ -201,7 +204,7 @@
     background:linear-gradient(135deg,var(--gold-hi),var(--gold) 55%,var(--gold-deep));
     max-width:var(--maxw)}
   .cta .in{position:relative;z-index:2;text-align:center;padding:70px 26px}
-  .cta h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.4vw,48px);color:#241a06;letter-spacing:-.02em}
+  .cta h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,4.4vw,46px);color:#241a06;letter-spacing:-.03em}
   .cta p{color:#3a2c0c;font-size:17px;margin:14px auto 30px;max-width:44ch;font-weight:600}
   .cta .btn{background:#0A0908;color:var(--gold-hi);box-shadow:0 14px 34px -10px rgba(0,0,0,.5)}
   .cta .btn:hover{transform:translateY(-2px);background:#000}
@@ -289,8 +292,8 @@
         <div class="notch"></div>
         <div class="glass"><img src="assets/shots/home.png" alt="Guardi koruma durumu ekranı"></div>
       </div>
-      <div class="float-badge fb-1"><div class="ic">📵</div><div><div class="t">Engellenen seri</div><div class="v">581.300+</div></div></div>
-      <div class="float-badge fb-2"><div class="ic">🛡️</div><div><div class="t">Koruma</div><div class="v gold">Aktif</div></div></div>
+      <div class="float-badge fb-1"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.9.36 1.78.7 2.61a2 2 0 0 1-.45 2.11L8.09 9.9a16 16 0 0 0 6 6l1.46-1.27a2 2 0 0 1 2.11-.45c.83.34 1.71.57 2.61.7A2 2 0 0 1 22 16.92z"/><path d="M2 2l20 20"/></svg></div><div><div class="t">Engellenen seri</div><div class="v">581.300+</div></div></div>
+      <div class="float-badge fb-2"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c5-1.5 8-5.2 8-10V5l-8-3-8 3v7c0 4.8 3 8.5 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><div class="t">Koruma</div><div class="v gold">Aktif</div></div></div>
     </div>
   </div>
 </header>
@@ -301,7 +304,7 @@
     <div class="stat"><div class="n"><em>581.300+</em></div><div class="l">Engellenen spam numara</div></div>
     <div class="stat"><div class="n">%100</div><div class="l">Cihazda analiz</div></div>
     <div class="stat"><div class="n">65+</div><div class="l">Akıllı anahtar kelime</div></div>
-    <div class="stat"><div class="n">🇹🇷</div><div class="l">Türkiye'ye özel</div></div>
+    <div class="stat"><div class="n">7/24</div><div class="l">Otomatik koruma</div></div>
   </div>
 </div>
 
@@ -315,33 +318,33 @@
     </div>
     <div class="bento">
       <div class="cell big reveal">
-        <div class="ic">📵</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.9.36 1.78.7 2.61a2 2 0 0 1-.45 2.11L8.09 9.9a16 16 0 0 0 6 6l1.46-1.27a2 2 0 0 1 2.11-.45c.83.34 1.71.57 2.61.7A2 2 0 0 1 22 16.92z"/><path d="M2 2l20 20"/></svg></div>
         <h3>Spam Arama Engelleme</h3>
         <p>Bilinen spam numara serilerini tek seferde engeller; binlerce numara otomatik kapsanır. Rehberindeki kişilere asla dokunulmaz.</p>
         <div class="bigfig">581K</div>
       </div>
       <div class="cell norm reveal">
-        <div class="ic">💬</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg></div>
         <h3>SMS Filtreleme</h3>
         <p>Dolandırıcılık, bahis ve reklam mesajları otomatik Önemsiz klasörüne taşınır.</p>
       </div>
       <div class="cell norm reveal">
-        <div class="ic">✨</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M18.5 13.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg></div>
         <h3>Akıllı SMS Analizi</h3>
         <p>Listede olmayan mesajları link, sahte gönderici ve kimlik avı sinyalleriyle inceler.</p>
       </div>
       <div class="cell norm reveal">
-        <div class="ic">🔎</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
         <h3>Numara Sorgula</h3>
         <p>Herhangi bir numarayı spam listesinde ve topluluk bildirimlerinde anında sorgula.</p>
       </div>
       <div class="cell norm reveal">
-        <div class="ic">👥</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <h3>Topluluk Koruması</h3>
         <p>Spam numara bildir, onaylı bildirimlerle tüm kullanıcıların korunmasına katkı sağla.</p>
       </div>
       <div class="cell wide reveal">
-        <div class="ic">📲</div>
+        <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/></svg></div>
         <h3>Widget & Siri Kısayolları</h3>
         <p>Ana ekran widget'ı ve Siri kısayollarıyla koruma durumun ve listeni her an elinin altında.</p>
       </div>
